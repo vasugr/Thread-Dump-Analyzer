@@ -4,6 +4,10 @@
 	"description": "thread dump analyzer",
 	"version": "0.0.1",
 	"publisher": "Vasu",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/vasugr/Thread-Dump-Analyzer.git"
+	},
 	"engines": {
 		"vscode": "^1.57.0"
 	},
