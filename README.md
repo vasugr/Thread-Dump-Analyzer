@@ -11,10 +11,10 @@ This extension parses and analyzes thread dump and generates a table to display 
 
 ## How To Use
 
-* Mac: cmd+shift+p and 
+* Mac: ```cmd+shift+p``` and 
 search "Analyze Thread Dump" command
 
-* Windows: ctrl+shift+p and 
+* Windows: ```ctrl+shift+p``` and 
 search "Analyze Thread Dump" command
 
 ## Release Notes
