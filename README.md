@@ -25,5 +25,9 @@ Initial release of Thread Dump Analyzer Extensions
 
 Initial release of Thread Dump Analyzer
 
+### 1.0.1
+
+Minor bug fixes
+
 
 -----------------------------------------------------------------------------------------------------------
