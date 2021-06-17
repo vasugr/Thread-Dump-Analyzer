@@ -22,14 +22,6 @@ const toObject:any = (map = new Map) =>
     );
 
 export function activate(context: vscode.ExtensionContext) {
-	
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	//console.log('Congratulations, your extension "tda" is now active!');
-
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
 	let disposable = vscode.commands.registerCommand('tda.helloWorld', () => {
 		// The code you place here will be executed every time your command is executed
 		// Display a message box to the user
@@ -56,21 +48,6 @@ export function activate(context: vscode.ExtensionContext) {
 			var jsonfile = JSON.stringify(o3);
 			//console.log("json = ",jsonfile);
 
-
-
-			// const onDiskPath2 = vscode.Uri.file( 
-			// 	path.join(context.extensionPath,'src', 'output1.json')
-			//  );
-			// //console.log("path == ",onDiskPath2.path);
-			// var fs = require('fs');
-			// fs.writeFile(onDiskPath2.path, jsonfile, function(err: any) {
-			// 	if (err) {
-			// 		console.log(err);
-			// 	}
-			// });
-
-			//console.table(summary);
-
 			const panel = vscode.window.createWebviewPanel(
 				'catCoding', // Identifies the type of the webview. Used internally
 				'Thread Dump Summary', // Title of the panel displayed to the user
@@ -83,13 +60,9 @@ export function activate(context: vscode.ExtensionContext) {
 			
 			//panel.webview.html = buildTable(MOUNTAINS);
 
-			const onDiskPath = vscode.Uri.file( 
-				path.join(context.extensionPath,'src', 'index.ts')
-			 );
-			 // And get the special URI to use with the webview
-			 const tsURI = panel.webview.asWebviewUri(onDiskPath);
+			
 			 
-			panel.webview.html = getWebviewContent(tsURI,jsonfile);
+			panel.webview.html = getWebviewContent(jsonfile);
 			//panel.webview.postMessage(jsonfile);
 			
 		}

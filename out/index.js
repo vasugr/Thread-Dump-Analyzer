@@ -28,25 +28,18 @@ var stackTraceList = new Array;
 var objlist = new Array;
 for (const property in obj) {
     var row = document.createElement("tr");
-    //console.log(`${property}: ${Object.keys(obj[property])}`);
     var cell = document.createElement("td");
     var h = document.createElement("H1"); // Create a <h1> element
-    var cellText = document.createTextNode(`${property}`); // Create a text node
+    var cellText = document.createTextNode(property); // Create a text node
     h.appendChild(cellText);
     cell.appendChild(h);
     row.appendChild(cell);
     var cell = document.createElement("td");
-    //console.log("type == ",typeof `${Object.keys(obj[property])}`);
     var p2 = document.createElement("table");
     var tblBody2 = document.createElement("tbody");
     var objStrace = obj[property];
     objlist.push(objStrace);
     for (const strace in objStrace) {
-        //console.log("\nhere==",strace);
-        //console.log("---->>",objStrace[strace].length);
-        // for(const thrinfo in objStrace[strace]){
-        //     console.log("----->",thrinfo);
-        // }
         var row2 = document.createElement("tr");
         var cell2 = document.createElement("td");
         var straceText = strace;
@@ -74,7 +67,6 @@ for (const property in obj) {
             var btnName = evntObj.value;
             console.log("btn text == " + btnName);
             if (btnStatus === "less") {
-                //console.log("btn status == "+btnStatus);
                 // @ts-ignore: Object is possibly 'null'.
                 document.getElementById("cell2id" + getId).innerHTML = stackTraceList[getId];
                 // @ts-ignore: Object is possibly 'null'.
@@ -87,7 +79,6 @@ for (const property in obj) {
                 // @ts-ignore: Object is possibly 'null'.
                 evntObj.setAttribute("name", "less");
             }
-            //console.log(" typeof obj keys == ", );
         };
         row2.appendChild(cell2);
         row2.appendChild(x);
@@ -107,10 +98,6 @@ for (const property in obj) {
             var combinedId = btnid.substring(14);
             var straceId = combinedId.split("-")[0];
             var stateId = combinedId.split("-")[1];
-            //console.log("state id =",stateId," strace id = ",straceId);
-            // @ts-ignore: Object is possibly 'null'.
-            //console.log("threads info = ",objStrace[stackTraceList[straceId]]);
-            //document.getElementById("tblid"+stateId).innerHTML = objlist[stateId][stackTraceList[straceId]][0]["threadName"];
             var thatCell = document.getElementById("tblid" + stateId);
             var allThreadsAray = objlist[stateId][stackTraceList[straceId]];
             var cellText = document.createTextNode(allThreadsAray.length);
@@ -179,7 +166,6 @@ for (const property in obj) {
     }
     p2.appendChild(tblBody2);
     p2.setAttribute("border", "1");
-    //var cellText = document.createTextNode(`${Object.keys(obj[property])}`);
     cell.appendChild(p2);
     row.appendChild(cell);
     var cell3 = document.createElement("td");
@@ -193,16 +179,6 @@ for (const property in obj) {
     tblBody.setAttribute("align", "left");
     j++;
 }
-// for (var i = 0; i < 2; i++) {
-//     var row = document.createElement("tr");
-//     for (var j = 0; j < 2; j++) {
-//         var cell = document.createElement("td");
-//         var cellText = document.createTextNode("cell in row "+i+", column "+j);
-//         cell.appendChild(cellText);
-//         row.appendChild(cell);
-//     }
-//     tblBody.appendChild(row);
-// }
 p.appendChild(tblBody);
 p.setAttribute("border", "5");
 p.setAttribute("align", "left");
