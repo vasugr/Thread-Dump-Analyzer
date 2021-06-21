@@ -6,7 +6,7 @@ const ThreadInfo_1 = require("./model/ThreadInfo");
 function parseDump(text) {
     var splitted = text.split("\n");
     //console.log(splitted[2]);
-    let namePattern = "^\"(.*)\".*prio=([0-9]+) os_prio=([0-9]+) tid=(\\w*) nid=(\\w*)\\s\\w*";
+    let namePattern = "^\"(.*)\"(.*)prio=([0-9]+) os_prio=([0-9]+) tid=(\\w*) nid=(\\w*)\\s\\w*";
     let statePattern = "\\s+java.lang.Thread.State: (.*)";
     let stacktrace = "";
     var tInfo = new ThreadInfo_1.ThreadInfo;
@@ -35,17 +35,20 @@ function parseDump(text) {
                 let tag = line.match(namePattern);
                 tInfo = new ThreadInfo_1.ThreadInfo;
                 if (tag !== null) {
-                    // console.log("name= ==",tag[0]);
-                    // console.log("name == " ,tag[1]);
-                    // console.log("prio = ",tag[2]);
-                    // console.log("os_prio = ",tag[3]);
-                    // console.log("tid",tag[4]);
-                    // console.log("nid",tag[5]);
+                    //console.log("name= ==",tag[0]);
+                    // console.log("name2 == " ,tag[1]);
+                    // console.log("daemon == " ,tag[2].split(" ")[2]);
+                    // console.log("prio = ",tag[3]);
+                    // console.log("os_prio = ",tag[4]);
+                    // console.log("tid",tag[5]);
+                    // console.log("nid",tag[6]);
                     tInfo.setThreadName(tag[1]);
-                    tInfo.setPriority(tag[2]);
-                    tInfo.setosPriority(tag[3]);
-                    tInfo.setTid(tag[4]);
-                    tInfo.setNid(tag[5]);
+                    tInfo.setDaemon(tag[2].includes("daemon"));
+                    //console.log("daemon = ",tInfo.getDaemon());
+                    tInfo.setPriority(tag[3]);
+                    tInfo.setosPriority(tag[4]);
+                    tInfo.setTid(tag[5]);
+                    tInfo.setNid(tag[6]);
                 }
             }
             else if (line.includes("Thread.State:")) {

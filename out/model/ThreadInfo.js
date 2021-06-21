@@ -4,6 +4,7 @@ exports.ThreadInfo = void 0;
 class ThreadInfo {
     constructor() {
         this.threadName = "";
+        this.daemon = false;
         this.priority = "";
         this.osPriority = "";
         this.tid = "";
@@ -11,15 +12,12 @@ class ThreadInfo {
         this.state = "";
         this.stackTrace = "";
     }
-    // constructor(threadName:string,priority:string,osPriority:string,tid:string,nid:string,state:string,stacktrace:string) {
-    //     this.threadName = threadName;
-    //     this.priority=priority;
-    //     this.osPriority=osPriority;
-    //     this.tid=tid;
-    //     this.nid=nid;
-    //     this.state = state;
-    //     this.stackTrace=stacktrace;
-    // }
+    getDaemon() {
+        return this.daemon;
+    }
+    setDaemon(daemon) {
+        this.daemon = daemon;
+    }
     getThreadName() {
         return this.threadName;
     }
@@ -61,13 +59,6 @@ class ThreadInfo {
     }
     setStackTrace(stackTrace) {
         this.stackTrace = stackTrace;
-    }
-    /**
-     *
-     * @return {string}
-     */
-    toString() {
-        return "\nThreadInfo{\nthreadName=\'" + this.threadName + '\'' + "\npriority=" + this.priority + "\osPriority=" + this.osPriority + "\ntid=" + this.tid + "\nnid=" + this.nid + "\nstate=\'" + this.state + '\'' + "\nstackTrace=\'" + this.stackTrace + '\'' + '}';
     }
 }
 exports.ThreadInfo = ThreadInfo;

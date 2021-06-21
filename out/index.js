@@ -28,39 +28,35 @@ var stackTraceList = new Array;
 var objlist = new Array;
 for (const property in obj) {
     var row = document.createElement("tr");
-    //console.log(`${property}: ${Object.keys(obj[property])}`);
     var cell = document.createElement("td");
     var h = document.createElement("H1"); // Create a <h1> element
-    var cellText = document.createTextNode(`${property}`); // Create a text node
+    var cellText = document.createTextNode(property); // Create a text node
     h.appendChild(cellText);
     cell.appendChild(h);
     row.appendChild(cell);
     var cell = document.createElement("td");
-    //console.log("type == ",typeof `${Object.keys(obj[property])}`);
     var p2 = document.createElement("table");
     var tblBody2 = document.createElement("tbody");
     var objStrace = obj[property];
     objlist.push(objStrace);
     for (const strace in objStrace) {
-        //console.log("\nhere==",strace);
-        //console.log("---->>",objStrace[strace].length);
-        // for(const thrinfo in objStrace[strace]){
-        //     console.log("----->",thrinfo);
-        // }
         var row2 = document.createElement("tr");
+        row2.style.width = "590px";
         var cell2 = document.createElement("td");
+        cell2.style.width = "400px";
         var straceText = strace;
         stackTraceList.push(straceText);
-        var cellText2 = document.createTextNode(straceText.substring(0, 270));
+        var cellText2 = document.createTextNode(straceText.substring(0, 270) + "........");
         cell2.appendChild(cellText2);
-        var cellText3 = document.createTextNode("......");
+        var cell21 = document.createElement("td");
+        cell21.style.width = "200px";
         var x = document.createElement("BUTTON");
         var t = document.createTextNode("show/hide");
         x.appendChild(t);
         x.setAttribute("id", "buttonid" + i);
         x.setAttribute("name", "less");
         x.style.opacity = "0.5";
-        cell2.appendChild(cellText3);
+        x.style.width = "100px";
         cell2.setAttribute("id", "cell2id" + i);
         x.onclick = function (event) {
             var evntObj = event.currentTarget;
@@ -100,6 +96,8 @@ for (const property in obj) {
         y.appendChild(t2);
         y.setAttribute("id", "threadbuttonid" + i + "-" + j);
         y.style.opacity = "0.5";
+        y.style.width = "100px";
+        y.style.maxHeight = "100px";
         y.onclick = function (event) {
             var evntObj = event.currentTarget;
             // @ts-ignore: Object is possibly 'null'.
@@ -107,10 +105,6 @@ for (const property in obj) {
             var combinedId = btnid.substring(14);
             var straceId = combinedId.split("-")[0];
             var stateId = combinedId.split("-")[1];
-            //console.log("state id =",stateId," strace id = ",straceId);
-            // @ts-ignore: Object is possibly 'null'.
-            //console.log("threads info = ",objStrace[stackTraceList[straceId]]);
-            //document.getElementById("tblid"+stateId).innerHTML = objlist[stateId][stackTraceList[straceId]][0]["threadName"];
             var thatCell = document.getElementById("tblid" + stateId);
             var allThreadsAray = objlist[stateId][stackTraceList[straceId]];
             var cellText = document.createTextNode(allThreadsAray.length);
@@ -179,8 +173,8 @@ for (const property in obj) {
     }
     p2.appendChild(tblBody2);
     p2.setAttribute("border", "1");
-    //var cellText = document.createTextNode(`${Object.keys(obj[property])}`);
     cell.appendChild(p2);
+    cell.style.width = "400px";
     row.appendChild(cell);
     var cell3 = document.createElement("td");
     var h1 = document.createElement("i"); // Create a <h1> element
@@ -193,16 +187,6 @@ for (const property in obj) {
     tblBody.setAttribute("align", "left");
     j++;
 }
-// for (var i = 0; i < 2; i++) {
-//     var row = document.createElement("tr");
-//     for (var j = 0; j < 2; j++) {
-//         var cell = document.createElement("td");
-//         var cellText = document.createTextNode("cell in row "+i+", column "+j);
-//         cell.appendChild(cellText);
-//         row.appendChild(cell);
-//     }
-//     tblBody.appendChild(row);
-// }
 p.appendChild(tblBody);
 p.setAttribute("border", "5");
 p.setAttribute("align", "left");

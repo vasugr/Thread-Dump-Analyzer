@@ -1,20 +1,23 @@
 export class ThreadInfo {
-    /*private*/ threadName: string;
+    threadName: string;
 
-    /*private*/ priority: string;
+    daemon:boolean;
 
-    /*private*/ osPriority: string;
+    priority: string;
 
-    /*private*/ tid: string;
+    osPriority: string;
 
-    /*private*/ nid: string;
+    tid: string;
 
-    /*private*/ state: string;
+    nid: string;
 
-    /*private*/ stackTrace: string;
+    state: string;
+
+    stackTrace: string;
 
     constructor(){
         this.threadName = "";
+        this.daemon=false;
          this.priority="";
          this.osPriority="";
          this.tid="";
@@ -22,16 +25,14 @@ export class ThreadInfo {
          this.state = "";
          this.stackTrace="";
     }
-    // constructor(threadName:string,priority:string,osPriority:string,tid:string,nid:string,state:string,stacktrace:string) {
-    //     this.threadName = threadName;
-    //     this.priority=priority;
-    //     this.osPriority=osPriority;
-    //     this.tid=tid;
-    //     this.nid=nid;
-    //     this.state = state;
-    //     this.stackTrace=stacktrace;
+    public getDaemon():boolean{
+        return this.daemon;
+    }
 
-    // }
+    public setDaemon(daemon:boolean){
+         this.daemon=daemon;
+    }
+    
 
     public getThreadName(): string {
         return this.threadName;
@@ -89,13 +90,7 @@ export class ThreadInfo {
         this.stackTrace = stackTrace;
     }
 
-    /**
-     * 
-     * @return {string}
-     */
-    public toString(): string {
-        return "\nThreadInfo{\nthreadName=\'" + this.threadName + '\'' + "\npriority=" + this.priority + "\osPriority=" + this.osPriority + "\ntid=" + this.tid + "\nnid=" + this.nid + "\nstate=\'" + this.state + '\'' + "\nstackTrace=\'" + this.stackTrace + '\'' + '}';
-    }
+    
 }
 
 

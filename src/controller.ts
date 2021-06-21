@@ -9,6 +9,5 @@ export function generateSummary(text:string):Map<string,Map<string,Array<ThreadI
     var tdInfo: ThreadDumpInfo = parseDump(text);
     let summary:Map<string,Map<string,Array<ThreadInfo>>> =analyzeDump(tdInfo);
 
-
     return summary;
 }
