@@ -14,7 +14,6 @@ function generateStringSummary(summary) {
     var ans2 = ""; //Thread count summary
     ans2 += " -------------------------------------------------\n";
     ans2 += "  THREAD COUNT SUMMARY: \n";
-    ans += "\n\t\tTHREAD DUMP SUMMARY\n\n";
     var thrdCount = 0;
     var numDaemon = 0;
     for (let [state, value] of summary) {
@@ -51,8 +50,9 @@ function generateStringSummary(summary) {
     ans2 += "  DAEMON VS NON-DAEMON : \n";
     ans2 += "\n\t\t DAEMON : " + numDaemon;
     ans2 += "\n\t\t NON-DAEMON : " + (thrdCount - numDaemon);
-    ans2 += "\n -------------------------------------------------\n\n";
+    ans2 += "\n -------------------------------------------------\n";
     ans += ans2;
+    ans += "\n\t\tTHREAD DUMP SUMMARY\n\n";
     ans += ans1;
     return ans;
 }
