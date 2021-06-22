@@ -23,7 +23,6 @@ export function identiftDeadLock(waiting:Map<ThreadInfo,string>,locked:Map<strin
         if(deadlocks.has(tinfo)) {continue;}
         var slow:ThreadInfo = tinfo;
         var fast:ThreadInfo = tinfo;
-        var locklist:Array<ThreadInfo>=new Array<ThreadInfo>();
         var found:boolean=false;
         while(true){
             //fast
@@ -44,7 +43,6 @@ export function identiftDeadLock(waiting:Map<ThreadInfo,string>,locked:Map<strin
             //     found=true;
             //     break;
             // }
-            
             //slow
             var next =getNext(slow,waiting,locked);
             if(next!==null){

@@ -84,7 +84,7 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
             ans1 += stacktrace;
             ans1+="\n";
             numDaemon += tinfo.reduce((acc, cur) => cur.daemon ? acc++ : acc, 0);
-            
+
         }
 
         ans2+= "\n\t\t"+state +" : " + thrdStateCount;

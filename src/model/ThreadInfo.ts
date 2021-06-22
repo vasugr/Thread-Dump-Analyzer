@@ -19,6 +19,8 @@ export class ThreadInfo {
 
     waiting:Array<string>;
 
+    callList:Array<string>;
+
 
     constructor(){
         this.threadName = "";
@@ -31,7 +33,17 @@ export class ThreadInfo {
          this.stackTrace="";
          this.locked=[];
          this.waiting=[];
+         this.callList=[];
     }
+
+    public setCallList(callList:Array<string>){
+        this.callList=callList;
+    }
+
+    public getCallList():Array<string>{
+        return this.callList;
+    }
+
     public getDaemon():boolean{
         return this.daemon;
     }

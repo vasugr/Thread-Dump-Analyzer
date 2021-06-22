@@ -5,11 +5,11 @@ const ThreadDumpInfo_1 = require("./model/ThreadDumpInfo");
 const ThreadInfo_1 = require("./model/ThreadInfo");
 function parseDump(text) {
     var splitted = text.split("\n");
-    //console.log(splitted[2]);
     let namePattern = "^\"(.*)\"(.*)prio=([0-9]+) os_prio=([0-9]+) tid=(\\w*) nid=(\\w*)\\s\\w*";
     let statePattern = "\\s+java.lang.Thread.State: (.*)";
     let lockedPattern = "\\s+- locked\\s+<(.*)>\\s+\\(.*\\)";
     let lockWaitPattern = "\\s+- parking to wait for\\s+<(.*)>\\s+\\(.*\\)";
+    let functionCallPattern = "\\s+at (.*)";
     let stacktrace = "";
     var tInfo = new ThreadInfo_1.ThreadInfo;
     var tInfoList = [];
@@ -19,6 +19,7 @@ function parseDump(text) {
     var tdInfo = new ThreadDumpInfo_1.ThreadDumpInfo;
     var lockedList = new Array();
     var waitingList = new Array();
+    var functionCallList = new Array();
     for (var line of splitted) {
         //console.log(line);
         if (!gotime) {
@@ -31,8 +32,10 @@ function parseDump(text) {
                     tInfo.setStackTrace(stacktrace);
                     tInfo.setLocked(lockedList);
                     tInfo.setWaiting(waitingList);
+                    tInfo.setCallList(functionCallList.reverse());
                     tInfoList.push(tInfo);
                     //console.log(tInfo.toString());
+                    functionCallList = new Array();
                     lockedList = new Array();
                     waitingList = new Array();
                     stacktrace = "";
@@ -44,13 +47,6 @@ function parseDump(text) {
                 let tag = line.match(namePattern);
                 tInfo = new ThreadInfo_1.ThreadInfo;
                 if (tag !== null) {
-                    //console.log("name= ==",tag[0]);
-                    // console.log("name2 == " ,tag[1]);
-                    // console.log("daemon == " ,tag[2].split(" ")[2]);
-                    // console.log("prio = ",tag[3]);
-                    // console.log("os_prio = ",tag[4]);
-                    // console.log("tid",tag[5]);
-                    // console.log("nid",tag[6]);
                     tInfo.setThreadName(tag[1]);
                     tInfo.setDaemon(tag[2].includes("daemon"));
                     //console.log("daemon = ",tInfo.getDaemon());
@@ -73,9 +69,17 @@ function parseDump(text) {
                 if (tag !== null) {
                     lockedList.push(tag[1]);
                 }
-                let tag1 = line.match(lockWaitPattern);
-                if (tag1 !== null) {
-                    waitingList.push(tag1[1]);
+                else {
+                    let tag1 = line.match(lockWaitPattern);
+                    if (tag1 !== null) {
+                        waitingList.push(tag1[1]);
+                    }
+                    else {
+                        let tag2 = line.match(functionCallPattern);
+                        if (tag2 !== null) {
+                            functionCallList.push(tag2[1]);
+                        }
+                    }
                 }
                 stacktrace += line + "\n";
             }
@@ -85,9 +89,6 @@ function parseDump(text) {
         tInfo.setStackTrace(stacktrace);
         tInfoList.push(tInfo);
     }
-    // console.log("length = " ,tInfoList.length);
-    // console.log(tInfoList[0]);
-    // console.log(tInfoList[1]);
     tdInfo.settInfo(tInfoList);
     return tdInfo;
 }

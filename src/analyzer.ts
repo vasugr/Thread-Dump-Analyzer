@@ -1,7 +1,6 @@
 import { ThreadDumpInfo } from "./model/ThreadDumpInfo";
 import { ThreadInfo } from "./model/ThreadInfo";
 
-
 function groupBy(list: any[], keyGetter: { (ThreadInfo: any): any; (arg0: any): any; }) {
     const map = new Map();
     list.forEach((item) => {
@@ -17,8 +16,6 @@ function groupBy(list: any[], keyGetter: { (ThreadInfo: any): any; (arg0: any): 
 }
 
 export function analyzeDump(tdInfo:ThreadDumpInfo):Map<string,Map<string,Array<ThreadInfo>>>{
-
-
     // eslint-disable-next-line @typescript-eslint/naming-convention
     let grp:Map<string,Array<ThreadInfo>> = groupBy(tdInfo.gettInfo(), ThreadInfo=>ThreadInfo.state);
 
@@ -30,7 +27,6 @@ export function analyzeDump(tdInfo:ThreadDumpInfo):Map<string,Map<string,Array<T
         var tmpVal:Map<string,Array<ThreadInfo>> = groupBy(value, ThreadInfo=>ThreadInfo.stackTrace);
 
         //console.log("mapb4sort = ",tmpVal);
-
         //stacktrace map
         var tmpValSorted:Map<string,Array<ThreadInfo>> =new Map([...tmpVal].sort((a, b) => a[1].length>b[1].length?-1:1));
         //console.log("map__after__sort = ",tmpValSorted);
@@ -39,7 +35,6 @@ export function analyzeDump(tdInfo:ThreadDumpInfo):Map<string,Map<string,Array<T
         }
         //console.log("key = ",key,"type of val =" , tmpVal);
     });
-    
     //statemap
     return grp2;
     

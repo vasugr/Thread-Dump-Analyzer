@@ -13,6 +13,13 @@ class ThreadInfo {
         this.stackTrace = "";
         this.locked = [];
         this.waiting = [];
+        this.callList = [];
+    }
+    setCallList(callList) {
+        this.callList = callList;
+    }
+    getCallList() {
+        return this.callList;
     }
     getDaemon() {
         return this.daemon;

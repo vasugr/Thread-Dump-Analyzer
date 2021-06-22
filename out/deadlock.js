@@ -23,7 +23,6 @@ function identiftDeadLock(waiting, locked) {
         }
         var slow = tinfo;
         var fast = tinfo;
-        var locklist = new Array();
         var found = false;
         while (true) {
             //fast
