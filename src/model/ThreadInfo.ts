@@ -15,6 +15,11 @@ export class ThreadInfo {
 
     stackTrace: string;
 
+    locked :Array<string>;
+
+    waiting:Array<string>;
+
+
     constructor(){
         this.threadName = "";
         this.daemon=false;
@@ -24,6 +29,8 @@ export class ThreadInfo {
          this.nid="";
          this.state = "";
          this.stackTrace="";
+         this.locked=[];
+         this.waiting=[];
     }
     public getDaemon():boolean{
         return this.daemon;
@@ -33,7 +40,25 @@ export class ThreadInfo {
          this.daemon=daemon;
     }
     
+    public setLocked(locked:Array<string>){
+        this.locked=locked;
+    }
 
+    public getLocked():Array<string>{
+        return this.locked;
+    }
+
+    public setWaiting(waiting:Array<string>){
+        this.waiting=waiting;
+    }
+
+    public getWaiting():Array<string>{
+        return this.waiting;
+    }
+
+    
+
+    
     public getThreadName(): string {
         return this.threadName;
     }
@@ -88,6 +113,10 @@ export class ThreadInfo {
 
     public setStackTrace(stackTrace: string) {
         this.stackTrace = stackTrace;
+    }
+
+    public toString(): string {
+        return "\nThreadInfo{\nthreadName=\'" + this.threadName + "\npriority=" + this.priority + "\osPriority=" + this.osPriority + "\ntid=" + this.tid + "\nnid=" + this.nid + "\nstate=\'" + this.state +  "\nlocked : "+this.locked+"\nwaiting : "+this.waiting+  "\nstackTrace=\'" + this.stackTrace + '}';
     }
 
     

@@ -11,12 +11,26 @@ class ThreadInfo {
         this.nid = "";
         this.state = "";
         this.stackTrace = "";
+        this.locked = [];
+        this.waiting = [];
     }
     getDaemon() {
         return this.daemon;
     }
     setDaemon(daemon) {
         this.daemon = daemon;
+    }
+    setLocked(locked) {
+        this.locked = locked;
+    }
+    getLocked() {
+        return this.locked;
+    }
+    setWaiting(waiting) {
+        this.waiting = waiting;
+    }
+    getWaiting() {
+        return this.waiting;
     }
     getThreadName() {
         return this.threadName;
@@ -59,6 +73,9 @@ class ThreadInfo {
     }
     setStackTrace(stackTrace) {
         this.stackTrace = stackTrace;
+    }
+    toString() {
+        return "\nThreadInfo{\nthreadName=\'" + this.threadName + "\npriority=" + this.priority + "\osPriority=" + this.osPriority + "\ntid=" + this.tid + "\nnid=" + this.nid + "\nstate=\'" + this.state + "\nlocked : " + this.locked + "\nwaiting : " + this.waiting + "\nstackTrace=\'" + this.stackTrace + '}';
     }
 }
 exports.ThreadInfo = ThreadInfo;

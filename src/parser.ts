@@ -7,6 +7,10 @@ export function parseDump(text:string):ThreadDumpInfo{
     //console.log(splitted[2]);
     let namePattern ="^\"(.*)\"(.*)prio=([0-9]+) os_prio=([0-9]+) tid=(\\w*) nid=(\\w*)\\s\\w*";
     let statePattern = "\\s+java.lang.Thread.State: (.*)";
+    let lockedPattern = "\\s+- locked\\s+<(.*)>\\s+\\(.*\\)";
+    let lockWaitPattern = "\\s+- parking to wait for\\s+<(.*)>\\s+\\(.*\\)";
+    
+    
     let stacktrace:string="";
     var tInfo:ThreadInfo= new ThreadInfo;
     var tInfoList:ThreadInfo[]=[];
@@ -17,6 +21,8 @@ export function parseDump(text:string):ThreadDumpInfo{
 
     var tdInfo:ThreadDumpInfo=new ThreadDumpInfo;
 
+    var lockedList:Array<string> =new Array<string>();
+    var waitingList:Array<string> =new Array<string>();
 
     for(var line of splitted){
         //console.log(line);
@@ -29,7 +35,12 @@ export function parseDump(text:string):ThreadDumpInfo{
             if(line.charAt(0)==='"'){
                 if(!starting){
                     tInfo.setStackTrace(stacktrace);
+                    tInfo.setLocked(lockedList);
+                    tInfo.setWaiting(waitingList);
                     tInfoList.push(tInfo);
+                    //console.log(tInfo.toString());
+                    lockedList =new Array<string>();
+                    waitingList =new Array<string>();
                     stacktrace="";
                 }else{
                     stacktrace="";
@@ -64,6 +75,15 @@ export function parseDump(text:string):ThreadDumpInfo{
                 }
             }
             else{
+                let tag = line.match(lockedPattern);
+                if(tag!==null){
+                    lockedList.push(tag[1]);
+                }
+
+                let tag1 = line.match(lockWaitPattern);
+                if(tag1!==null){
+                    waitingList.push(tag1[1]);
+                }
                 stacktrace+= line+"\n";
             }   
         }
