@@ -32,7 +32,7 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     ans3+= "|  DEADLOCKS DETECTED: \n";
 
     ans4 += "\n -------------------------------------------------\n";
-    ans4+= "|  BOTTOM UP CALL STACKTRACE: \n\n";
+    ans4+= "|  BOTTOM UP CALL STACK TREE: \n\n";
 
 
     var thrdCount=0;
