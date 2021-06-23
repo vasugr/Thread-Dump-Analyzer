@@ -5,7 +5,7 @@ This extension parses and analyzes thread dump and generates a table to display 
 ### Input Thread Dump
 ![INPUT](/images/input.png)
 
-### Output summary table
+### Output Summary 
 ![OUTPUT](/images/output.png)
 
 
