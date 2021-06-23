@@ -13,7 +13,7 @@ This extension parses and analyzes thread dump and generates a summary to displa
    * Initially, the tree remains in collapsed form, click on the 3 dots or on the arrow before it to expand
 * THREAD DUMP SUMMARY : 
   * It shows all the threads grouped by state and by identical stacktrace.
-  * Initially, it in collapsed form, click on the 3 dots after the thread name or on the arrow before it to expand
+  * Initially, it stays in collapsed form, click on the 3 dots after the thread name or on the arrow before it to expand
  
 ### Input Thread Dump
 ![INPUT](/images/input.png)
