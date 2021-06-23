@@ -24,7 +24,14 @@
         "command": "tda.helloWorld",
         "title": "Analyze Thread Dump"
       }
-    ]
+    ],
+    "keybindings": [
+      {
+          "command": "tda.helloWorld",
+          "key": "shift+ctrl+o",
+          "mac": "shift+cmd+o"
+      }
+  ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",

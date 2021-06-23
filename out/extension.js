@@ -98,7 +98,7 @@ function activate(context) {
             editor.edit(editBuilder => {
                 editBuilder.replace(new vscode_1.Range(new vscode_1.Position(0, 0), new vscode_1.Position(document.lineCount, 0)), ans);
             });
-            foldLines(editor.document, foldlines);
+            foldLines(editor.document, foldlines.reverse());
             //console.log("foldedlines = ",foldlines);
         }
     });

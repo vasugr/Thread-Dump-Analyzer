@@ -118,7 +118,7 @@ export function activate(context: vscode.ExtensionContext) {
 					new Position(document.lineCount, 0)), ans);
 			});
 
-			foldLines(editor.document,foldlines);
+			foldLines(editor.document,foldlines.reverse());
 			//console.log("foldedlines = ",foldlines);
 
 		}
