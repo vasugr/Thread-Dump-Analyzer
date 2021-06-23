@@ -52,6 +52,7 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
         //console.log("---");
         //console.log(state,value);
         ans1 += " -------------------------------------------------\n";
+        foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
         ans1 += "|\t\tSTATE : "+state+"\n";
 
         ans1 += " -------------------------------------------------\n\n";

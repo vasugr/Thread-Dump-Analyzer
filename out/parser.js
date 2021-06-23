@@ -67,9 +67,16 @@ function parseDump(text) {
             else {
                 let tag = line.match(lockedPattern);
                 if (tag !== null) {
+                    if (tInfo.state === "RUNNABLE") {
+                        stacktrace += line.replace(tag[1], "") + "\n";
+                    }
+                    else {
+                        stacktrace += line + "\n";
+                    }
                     lockedList.push(tag[1]);
                 }
                 else {
+                    stacktrace += line + "\n";
                     let tag1 = line.match(lockWaitPattern);
                     if (tag1 !== null) {
                         waitingList.push(tag1[1]);
@@ -81,7 +88,6 @@ function parseDump(text) {
                         }
                     }
                 }
-                stacktrace += line + "\n";
             }
         }
     }

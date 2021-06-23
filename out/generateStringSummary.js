@@ -40,6 +40,7 @@ function generateStringSummary(summary, foldlines) {
         //console.log("---");
         //console.log(state,value);
         ans1 += " -------------------------------------------------\n";
+        foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
         ans1 += "|\t\tSTATE : " + state + "\n";
         ans1 += " -------------------------------------------------\n\n";
         var thrdStateCount = 0;
