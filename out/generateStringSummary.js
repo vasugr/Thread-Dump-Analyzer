@@ -81,7 +81,9 @@ function generateStringSummary(summary, foldlines) {
             else {
                 ans1 += numThrds + " THREAD with ";
             }
-            foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
+            if (stacktrace.length > 0) {
+                foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
+            }
             ans1 += "THREAD NAME : " + sharedStart(threadNameArr) + "\n";
             ans1 += stacktrace;
             ans1 += "\n";
@@ -123,6 +125,7 @@ function generateStringSummary(summary, foldlines) {
     //console.log("b4 ans1 line ==>> ",line);
     //console.log("ans1 lines = ",foldlines2);
     for (var linenum1 of foldlines2) {
+        //console.log("linenumm  = ",line + linenum1-1);
         foldlines.push(line + linenum1 - 1);
     }
     ans += ans1;
