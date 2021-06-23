@@ -2,7 +2,7 @@
   "name": "tda",
   "displayName": "Thread Dump Analyzer",
   "description": "thread dump analyzer",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "publisher": "Vasu",
   "repository": {
     "type": "git",
@@ -27,11 +27,11 @@
     ],
     "keybindings": [
       {
-          "command": "tda.helloWorld",
-          "key": "shift+ctrl+o",
-          "mac": "shift+cmd+o"
+        "command": "tda.helloWorld",
+        "key": "shift+ctrl+o",
+        "mac": "shift+cmd+o"
       }
-  ]
+    ]
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
