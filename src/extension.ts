@@ -22,6 +22,34 @@ const toObject:any = (map = new Map) =>
         )
     );
 
+function getTextEditor(document: vscode.TextDocument): vscode.TextEditor | null {
+
+	for (let te of vscode.window.visibleTextEditors) {
+		if (te.document.fileName === document.fileName) {
+			return te;
+		}
+	}
+	return null;
+}
+async function foldLines(document: vscode.TextDocument, foldLines: Array<number>) {
+	var str = "";
+	foldLines.forEach(p => str += p + ",");
+	//console.log("folde error : ",foldLines);
+	//console.log("folding lines: " + str);
+
+	const textEditor = getTextEditor(document);
+	if (!textEditor) { return; }
+	const selection = textEditor.selection;
+
+	for (const lineNumber of foldLines) {
+		textEditor.selection = new vscode.Selection(lineNumber, 0, lineNumber, 0);
+		await vscode.commands.executeCommand('editor.fold');
+		//console.log('folding ' + textEditor.selection.anchor.line);
+	}
+	textEditor.selection = selection;
+	// textEditor.revealRange(textEditor.selection, vscode.TextEditorRevealType.InCenter);
+}
+
 export function activate(context: vscode.ExtensionContext) {
 		// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// This line of code will only be executed once when your extension is activated
@@ -82,15 +110,17 @@ export function activate(context: vscode.ExtensionContext) {
 			// var o3 = toObject(summary);
 			
 	 		// var jsonfile = JSON.stringify(o3,null,4);
-
-			var ans = generateStringSummary(summary);
+			var foldlines:Array<number>=[];
+			var ans = generateStringSummary(summary,foldlines);
 			editor.edit(editBuilder => {
 				editBuilder.replace(new Range(
 					new Position(0, 0),
 					new Position(document.lineCount, 0)), ans);
 			});
 
-			//editor.document.;
+			foldLines(editor.document,foldlines);
+			//console.log("foldedlines = ",foldlines);
+
 		}
 	});
 

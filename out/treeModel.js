@@ -11,6 +11,7 @@ class TreeNode {
         }
         this.children = [];
         this.numChild = 1;
+        this.linenumber = 0;
     }
     getNumChild() {
         return this.numChild;

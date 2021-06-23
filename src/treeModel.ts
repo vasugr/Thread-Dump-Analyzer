@@ -3,6 +3,7 @@ export class TreeNode{
     public value:string;
     public numChild:number;
     public children:Array<TreeNode>;
+    public linenumber:number;
 
     public constructor(val?:string){
         if(val===undefined){
@@ -13,6 +14,7 @@ export class TreeNode{
         }
         this.children=[];
         this.numChild=1;
+        this.linenumber=0;
     }
 
     public getNumChild(){

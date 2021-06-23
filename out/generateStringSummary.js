@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateStringSummary = void 0;
 const deadlock_1 = require("./deadlock");
 const fillTree_1 = require("./fillTree");
+const linenum_1 = require("./linenum");
 const printTree_1 = require("./printTree");
 const treeModel_1 = require("./treeModel");
 function sharedStart(array) {
@@ -12,12 +13,14 @@ function sharedStart(array) {
     }
     return a1.substring(0, i);
 }
-function generateStringSummary(summary) {
+function generateStringSummary(summary, foldlines) {
     var ans = "";
+    var line = 0;
+    var foldlines2 = [];
     var ans1 = ""; //thread dump summary
-    var ans2 = ""; //Thread count summary
+    var ans2 = ""; //Thread count summary and daemon
     var ans3 = ""; // dead lock detection
-    var ans4 = ""; //call stacktrace
+    var ans4 = ""; //call stack tree
     ans1 += "\n -------------------------------------------------\n";
     ans1 += "\n|\t\tTHREAD DUMP SUMMARY\n\n";
     ans2 += " -------------------------------------------------\n";
@@ -32,6 +35,7 @@ function generateStringSummary(summary) {
     var waitingThrds = new Map();
     var deadlock = new Set();
     var root = new treeModel_1.TreeNode("\troot");
+    root.linenumber = 1;
     for (let [state, value] of summary) {
         //console.log("---");
         //console.log(state,value);
@@ -77,6 +81,7 @@ function generateStringSummary(summary) {
             else {
                 ans1 += numThrds + " THREAD with ";
             }
+            foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
             ans1 += "THREAD NAME : " + sharedStart(threadNameArr) + "\n";
             ans1 += stacktrace;
             ans1 += "\n";
@@ -88,7 +93,7 @@ function generateStringSummary(summary) {
     }
     ans2 += "\n\tTOTAL THREADS COUNT = " + thrdCount;
     ans2 += "\n -------------------------------------------------\n";
-    ans2 += "  DAEMON VS NON-DAEMON : \n";
+    ans2 += "|  DAEMON VS NON-DAEMON : \n";
     ans2 += "\n\t\t DAEMON : " + numDaemon;
     ans2 += "\n\t\t NON-DAEMON : " + (thrdCount - numDaemon);
     ans += ans2;
@@ -103,9 +108,23 @@ function generateStringSummary(summary) {
     }
     ans3 += "\n -------------------------------------------------\n";
     ans += ans3;
-    ans4 += printTree_1.printTree(root, "\t\t");
+    var linenum = new linenum_1.LineNum();
+    linenum.val = 1;
+    ans4 += printTree_1.printTree(root, "\t\t", linenum);
     ans4 += "\n -------------------------------------------------\n";
+    line += ans.split(/\r\n|\r|\n/).length;
+    line += 3;
+    for (var child of root.children) {
+        foldlines.push(child.linenumber + line);
+    }
+    //console.log("line ==>> ",line);
     ans += ans4;
+    line = ans.split(/\r\n|\r|\n/).length;
+    //console.log("b4 ans1 line ==>> ",line);
+    //console.log("ans1 lines = ",foldlines2);
+    for (var linenum1 of foldlines2) {
+        foldlines.push(line + linenum1 - 1);
+    }
     ans += ans1;
     return ans;
 }

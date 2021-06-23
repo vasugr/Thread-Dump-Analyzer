@@ -1,5 +1,6 @@
 import { identiftDeadLock } from "./deadlock";
 import { fillTree } from "./fillTree";
+import { LineNum } from "./linenum";
 import { ThreadInfo } from "./model/ThreadInfo";
 import { printTree } from "./printTree";
 import { TreeNode } from "./treeModel";
@@ -14,13 +15,14 @@ function sharedStart(array: any[]){
 }
 
 
-export function generateStringSummary(summary:Map<string,Map<string,Array<ThreadInfo>>>):string{
+export function generateStringSummary(summary:Map<string,Map<string,Array<ThreadInfo>>>,foldlines:Array<number>):string{
     var ans:string="";
-
+    var line =0;
+    var foldlines2:Array<number>=[];
     var ans1:string=""; //thread dump summary
-    var ans2:string=""; //Thread count summary
+    var ans2:string=""; //Thread count summary and daemon
     var ans3:string=""; // dead lock detection
-    var ans4:string=""; //call stacktrace
+    var ans4:string=""; //call stack tree
 
     ans1 += "\n -------------------------------------------------\n";
     ans1+= "\n|\t\tTHREAD DUMP SUMMARY\n\n";
@@ -44,6 +46,7 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     var deadlock:Set<ThreadInfo> = new Set<ThreadInfo>();
 
     var root:TreeNode = new TreeNode("\troot");
+    root.linenumber=1;
 
     for(let [state,value] of summary){
         //console.log("---");
@@ -86,9 +89,10 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
             let threadNameArr = tinfo.map(ThreadInfo=>ThreadInfo.threadName);
             let numThrds = tinfo.length;
             thrdStateCount += numThrds;
+
             if(numThrds>1) {ans1 += numThrds+" THREADS with ";}
             else{ans1 += numThrds+" THREAD with ";}
-
+            foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
             ans1+= "THREAD NAME : "+sharedStart(threadNameArr)+"\n";
             ans1 += stacktrace;
             ans1+="\n";
@@ -101,9 +105,11 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     }
     ans2+="\n\tTOTAL THREADS COUNT = "+thrdCount;
     ans2 += "\n -------------------------------------------------\n";
-    ans2+= "  DAEMON VS NON-DAEMON : \n";
+    ans2+= "|  DAEMON VS NON-DAEMON : \n";
     ans2+= "\n\t\t DAEMON : "+numDaemon;
     ans2+= "\n\t\t NON-DAEMON : "+(thrdCount-numDaemon);
+    
+
     
     ans += ans2;
 
@@ -119,11 +125,26 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     ans3 += "\n -------------------------------------------------\n";
 
     ans+=ans3;
-
-    ans4 += printTree(root,"\t\t");
+    var linenum:LineNum = new LineNum();
+    linenum.val=1;
+    ans4 += printTree(root,"\t\t",linenum);
     ans4 += "\n -------------------------------------------------\n";
+
+    line += ans.split(/\r\n|\r|\n/).length;
+    line+=3;
+    for(var child of root.children){
+        foldlines.push(child.linenumber + line);
+    }
+    //console.log("line ==>> ",line);
     ans+= ans4;
 
+
+    line = ans.split(/\r\n|\r|\n/).length;
+    //console.log("b4 ans1 line ==>> ",line);
+    //console.log("ans1 lines = ",foldlines2);
+    for(var linenum1 of foldlines2){
+        foldlines.push(line + linenum1-1);
+    }
     ans += ans1;
 
     return ans;
