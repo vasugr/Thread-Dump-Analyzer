@@ -2,6 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateStringSummary = void 0;
 const deadlock_1 = require("./deadlock");
+const fillTree_1 = require("./fillTree");
+const printTree_1 = require("./printTree");
+const treeModel_1 = require("./treeModel");
 function sharedStart(array) {
     var A = array.concat().sort(), a1 = A[0], a2 = A[A.length - 1], L = a1.length, i = 0;
     while (i < L && a1.charAt(i) === a2.charAt(i)) {
@@ -14,17 +17,21 @@ function generateStringSummary(summary) {
     var ans1 = ""; //thread dump summary
     var ans2 = ""; //Thread count summary
     var ans3 = ""; // dead lock detection
+    var ans4 = ""; //call stacktrace
     ans1 += "\n -------------------------------------------------\n";
-    ans1 += "\n\t\tTHREAD DUMP SUMMARY\n\n";
+    ans1 += "\n|\t\tTHREAD DUMP SUMMARY\n\n";
     ans2 += " -------------------------------------------------\n";
-    ans2 += "  THREAD COUNT SUMMARY: \n";
+    ans2 += "|  THREAD COUNT SUMMARY: \n";
     ans3 += "\n -------------------------------------------------\n";
-    ans3 += "  DEADLOCKS DETECTED: \n";
+    ans3 += "|  DEADLOCKS DETECTED: \n";
+    ans4 += "\n -------------------------------------------------\n";
+    ans4 += "|  BOTTOM UP CALL STACKTRACE: \n\n";
     var thrdCount = 0;
     var numDaemon = 0;
     var lockedResource = new Map();
     var waitingThrds = new Map();
     var deadlock = new Set();
+    var root = new treeModel_1.TreeNode("\troot");
     for (let [state, value] of summary) {
         //console.log("---");
         //console.log(state,value);
@@ -74,6 +81,7 @@ function generateStringSummary(summary) {
             ans1 += stacktrace;
             ans1 += "\n";
             numDaemon += tinfo.reduce((acc, cur) => cur.daemon ? acc++ : acc, 0);
+            fillTree_1.fillTree(root, tinfo);
         }
         ans2 += "\n\t\t" + state + " : " + thrdStateCount;
         thrdCount += thrdStateCount;
@@ -95,6 +103,9 @@ function generateStringSummary(summary) {
     }
     ans3 += "\n -------------------------------------------------\n";
     ans += ans3;
+    ans4 += printTree_1.printTree(root, "\t\t");
+    ans4 += "\n -------------------------------------------------\n";
+    ans += ans4;
     ans += ans1;
     return ans;
 }

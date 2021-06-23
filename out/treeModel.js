@@ -10,6 +10,13 @@ class TreeNode {
             this.value = val;
         }
         this.children = [];
+        this.numChild = 1;
+    }
+    getNumChild() {
+        return this.numChild;
+    }
+    setNumChld(num) {
+        this.numChild = num;
     }
     setValue(val) {
         this.value = val;
@@ -24,6 +31,7 @@ class TreeNode {
         return this.children;
     }
     addChild(child) {
+        this.numChild++;
         this.children.push(new TreeNode(child));
     }
 }
