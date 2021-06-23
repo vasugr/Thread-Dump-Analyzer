@@ -2,7 +2,7 @@
   "name": "tda",
   "displayName": "Thread Dump Analyzer",
   "description": "thread dump analyzer",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "publisher": "Vasu",
   "repository": {
     "type": "git",
