@@ -49,12 +49,9 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     root.linenumber=1;
 
     for(let [state,value] of summary){
-        //console.log("---");
-        //console.log(state,value);
         ans1 += " -------------------------------------------------\n";
         foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
         ans1 += "|\t\tSTATE : "+state+"\n";
-
         ans1 += " -------------------------------------------------\n\n";
         var thrdStateCount=0;
         if(state==="BLOCKED"){
@@ -76,9 +73,6 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
                     }
                 }
             }
-
-            //console.log("\nwaiting thrds == ", waitingThrds);
-            //console.log("\nlocked thrds = ",lockedResource);
             deadlock = identiftDeadLock(waitingThrds,lockedResource);
             //console.log("deadlocks = ",deadlock);
         }
@@ -100,7 +94,6 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
             numDaemon += tinfo.reduce((acc, cur) => cur.daemon ? acc++ : acc, 0);
             fillTree(root,tinfo);
         }
-
         ans2+= "\n\t\t"+state +" : " + thrdStateCount;
         thrdCount+=thrdStateCount;
     }
@@ -109,8 +102,6 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     ans2+= "|  DAEMON VS NON-DAEMON : \n";
     ans2+= "\n\t\t DAEMON : "+numDaemon;
     ans2+= "\n\t\t NON-DAEMON : "+(thrdCount-numDaemon);
-    
-
     
     ans += ans2;
 
@@ -124,8 +115,8 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
         }
     }
     ans3 += "\n -------------------------------------------------\n";
-
     ans+=ans3;
+    
     var linenum:LineNum = new LineNum();
     linenum.val=1;
     ans4 += printTree(root,"\t\t",linenum);
@@ -136,15 +127,10 @@ export function generateStringSummary(summary:Map<string,Map<string,Array<Thread
     for(var child of root.children){
         foldlines.push(child.linenumber + line);
     }
-    //console.log("line ==>> ",line);
     ans+= ans4;
 
-
     line = ans.split(/\r\n|\r|\n/).length;
-    //console.log("b4 ans1 line ==>> ",line);
-    //console.log("ans1 lines = ",foldlines2);
     for(var linenum1 of foldlines2){
-        //console.log("linenumm  = ",line + linenum1-1);
         foldlines.push(line + linenum1-1);
     }
     ans += ans1;

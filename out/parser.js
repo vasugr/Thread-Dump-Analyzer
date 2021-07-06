@@ -33,7 +33,9 @@ function parseDump(text) {
                     tInfo.setLocked(lockedList);
                     tInfo.setWaiting(waitingList);
                     tInfo.setCallList(functionCallList.reverse());
-                    tInfoList.push(tInfo);
+                    if (stacktrace.length > 0) {
+                        tInfoList.push(tInfo);
+                    }
                     //console.log(tInfo.toString());
                     functionCallList = new Array();
                     lockedList = new Array();
@@ -93,7 +95,9 @@ function parseDump(text) {
     }
     if (tInfo.getThreadName().length > 0) {
         tInfo.setStackTrace(stacktrace);
-        tInfoList.push(tInfo);
+        if (stacktrace.length > 0) {
+            tInfoList.push(tInfo);
+        }
     }
     tdInfo.settInfo(tInfoList);
     return tdInfo;

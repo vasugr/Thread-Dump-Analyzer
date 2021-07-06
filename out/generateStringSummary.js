@@ -37,8 +37,6 @@ function generateStringSummary(summary, foldlines) {
     var root = new treeModel_1.TreeNode("\troot");
     root.linenumber = 1;
     for (let [state, value] of summary) {
-        //console.log("---");
-        //console.log(state,value);
         ans1 += " -------------------------------------------------\n";
         foldlines2.push(ans1.split(/\r\n|\r|\n/).length);
         ans1 += "|\t\tSTATE : " + state + "\n";
@@ -63,8 +61,6 @@ function generateStringSummary(summary, foldlines) {
                     }
                 }
             }
-            //console.log("\nwaiting thrds == ", waitingThrds);
-            //console.log("\nlocked thrds = ",lockedResource);
             deadlock = deadlock_1.identiftDeadLock(waitingThrds, lockedResource);
             //console.log("deadlocks = ",deadlock);
         }
@@ -120,13 +116,9 @@ function generateStringSummary(summary, foldlines) {
     for (var child of root.children) {
         foldlines.push(child.linenumber + line);
     }
-    //console.log("line ==>> ",line);
     ans += ans4;
     line = ans.split(/\r\n|\r|\n/).length;
-    //console.log("b4 ans1 line ==>> ",line);
-    //console.log("ans1 lines = ",foldlines2);
     for (var linenum1 of foldlines2) {
-        //console.log("linenumm  = ",line + linenum1-1);
         foldlines.push(line + linenum1 - 1);
     }
     ans += ans1;

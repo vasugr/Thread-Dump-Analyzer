@@ -36,7 +36,9 @@ export function parseDump(text:string):ThreadDumpInfo{
                     tInfo.setLocked(lockedList);
                     tInfo.setWaiting(waitingList);
                     tInfo.setCallList(functionCallList.reverse());
-                    tInfoList.push(tInfo);
+                    if(stacktrace.length >0){
+                        tInfoList.push(tInfo);
+                    }
                     //console.log(tInfo.toString());
                     functionCallList =new Array<string>();
                     lockedList =new Array<string>();
@@ -97,7 +99,9 @@ export function parseDump(text:string):ThreadDumpInfo{
 
     if(tInfo.getThreadName().length>0){
         tInfo.setStackTrace(stacktrace);
-        tInfoList.push(tInfo);
+        if(stacktrace.length >0){
+            tInfoList.push(tInfo);
+        }
     }
 
     tdInfo.settInfo(tInfoList);
