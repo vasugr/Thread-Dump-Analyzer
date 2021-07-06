@@ -85,6 +85,15 @@ function activate(context) {
     const disposable = vscode.commands.registerCommand('tda.helloWorld', function () {
         // Get the active text editor
         const editor = vscode.window.activeTextEditor;
+        const wsPath = editor === null || editor === void 0 ? void 0 : editor.document.uri.fsPath;
+        const wsedit = new vscode.WorkspaceEdit();
+        const filePath = vscode.Uri.file(wsPath + '_output_summary.txt');
+        //vscode.window.showInformationMessage(filePath.toString());
+        wsedit.createFile(filePath, { ignoreIfExists: true });
+        vscode.workspace.applyEdit(wsedit);
+        vscode.window.showInformationMessage('Summary created at : ', filePath.toString());
+        var openPath = vscode.Uri.parse(filePath.toString());
+        //console.log("\n\nhuehuehuekok\n\n");
         if (editor) {
             const document = editor.document;
             const selection = editor.selection.union(new vscode_1.Range(new vscode_1.Position(0, 0), new vscode_1.Position(document.lineCount, 0)));
@@ -95,12 +104,45 @@ function activate(context) {
             // var jsonfile = JSON.stringify(o3,null,4);
             var foldlines = [];
             var ans = generateStringSummary_1.generateStringSummary(summary, foldlines);
-            editor.edit(editBuilder => {
-                editBuilder.replace(new vscode_1.Range(new vscode_1.Position(0, 0), new vscode_1.Position(document.lineCount, 0)), ans);
+            //console.log("sumary generated ");
+            //fs.writeFileSync(filePath.toString(), ans.toString(), 'utf8');
+            var setting = vscode.Uri.parse(filePath.fsPath);
+            vscode.workspace.openTextDocument(setting).then((a) => {
+                vscode.window.showTextDocument(a, 1, false).then(e => {
+                    e.edit(edit => {
+                        edit.replace(new vscode_1.Range(new vscode_1.Position(0, 0), new vscode_1.Position(document.lineCount, 0)), ans);
+                    });
+                    foldLines(e.document, foldlines.reverse());
+                });
+            }, (error) => {
+                console.error(error);
+                debugger;
             });
-            foldLines(editor.document, foldlines.reverse());
+            //console.log("\n\nfile saved\n ");			
+            // editor.edit(editBuilder => {
+            // 	editBuilder.replace(new Range(
+            // 		new Position(0, 0),
+            // 		new Position(document.lineCount, 0)), ans);
+            // });
+            // foldLines(editor.document,foldlines.reverse());
             //console.log("foldedlines = ",foldlines);
         }
+        //console.log("\n\nokokok\n\n");
+        // vscode.workspace.openTextDocument(openPath).then(doc => {
+        // 	vscode.window.showTextDocument(doc);
+        // 	const editor1 = vscode.window.activeTextEditor;
+        // 	if(editor1){
+        // 		const document1 = editor1.document;
+        // 		console.log("new doc text = ",document1.getText());
+        // 		console.log("new doc path = ",document1.uri.path);
+        // 		editor1.edit(editBuilder => {
+        // 		editBuilder.replace(new Range(
+        // 				new Position(0, 0),
+        // 				new Position(document1.lineCount, 0)), ans);
+        // 		});
+        // 		foldLines(document1,foldlines.reverse());
+        // 	}
+        // });
     });
     context.subscriptions.push(disposable);
 }
