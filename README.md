@@ -21,8 +21,11 @@ This extension parses and analyzes thread dump and generates a summary to displa
 ### Output Summary 
 ![OUTPUT](/images/output.png)
 
+# Installation
 
-## How To Use
+Search for "Thread Dump Analyzer" in VS code extention marketplace and install it.
+
+# How To Use
 
 * Mac: 
   * ```cmd+shift+o```<br />
@@ -33,19 +36,5 @@ This extension parses and analyzes thread dump and generates a summary to displa
   * ```ctrl+shift+o```<br />
     OR
   * ```ctrl+shift+p``` and  search "Analyze Thread Dump" command
-
-
-## Release Notes
-
-Initial release of Thread Dump Analyzer Extensions
-
-### 1.0.0
-
-Initial release of Thread Dump Analyzer
-
-### 1.0.1
-
-Minor bug fixes
-
 
 -----------------------------------------------------------------------------------------------------------
